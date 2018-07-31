@@ -106,10 +106,10 @@ void    prt_hex(va_list ap, t_flags **flags_set, t_vect **vect)
 	char *str;
 
 	str = itoa_base(va_arg(ap, uintmax_t), 16);
+	if ((*flags_set)->pound)
+		str = ft_strjoin("0x", str);
 	if ((*flags_set)->x)
 		up_str(&str);
-	if ((*flags_set)->pound)
-		str = ft_strjoin("0x", str);       
 	while ((*flags_set)->preclen > ft_strlen(str))
 		str = ft_strjoin("0", str);
 	if ((*flags_set)->padlen - ft_strlen(str) > 0)
@@ -319,8 +319,8 @@ void    prt_oct(va_list ap, t_flags **flags_set, t_vect **vect)
 	char *str;
 
 	str = itoa_base(va_arg(ap, intmax_t), 8);
-	if ((*flags_set)->pound)
-		str = ft_strjoin("0", str);       
+	if ((*flags_set)->pound && str[0] != '0')
+		str = ft_strjoin("0", str);
 	while ((*flags_set)->preclen > ft_strlen(str))
 		str = ft_strjoin("0", str);
 	if ((*flags_set)->padlen - ft_strlen(str) > 0)
