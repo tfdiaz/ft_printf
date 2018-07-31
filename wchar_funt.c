@@ -75,7 +75,7 @@ wchar_t *ft_wstrnew(size_t size)
 {
 	wchar_t *wstr;
 
-	wstr = (wchar_t*)malloc(sizeof(wchar_t) * size + 1);
+	wstr = (wchar_t*)malloc(sizeof(wchar_t) * (size + 1));
 	if (wstr == NULL)
 		return (NULL);
     wstr_set(wstr, L'\0', size + 1);
