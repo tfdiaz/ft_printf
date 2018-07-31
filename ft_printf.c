@@ -32,7 +32,7 @@ char    *cloudy(t_flags **flags_set)
 	intmax_t x = (*flags_set)->padlen;
 	if ((*flags_set)->padlen <= 0)
 		return (NULL);
-	if ((*flags_set)->zeropad && (*flags_set)->plus && !((*flags_set)->leftjust)))
+	if ((*flags_set)->zeropad && (*flags_set)->plus && !((*flags_set)->leftjust))
 		(*flags_set)->padlen--;
 	if ((*flags_set)->space)
 		(*flags_set)->padlen--;
