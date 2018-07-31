@@ -20,8 +20,8 @@ t_dispatch  g_dispatch[10] = {
 	{.prt = &prt_int, .s = "idD"},
 	{.prt = &prt_uint, .s = "uU"},
 	{.prt = &prt_hex, .s = "xX"},
-	{.prt = &prt_c, .s = "c"},
-	{.prt = &prt_wc, .s = "C"},
+	{.prt = &prt_c, .s = "cC"},
+	{.prt = &prt_percent, .s = "%"},
 	{0, 0}
 };
 
@@ -62,6 +62,8 @@ void    prt_c(va_list ap, t_flags **flags_set, t_vect **vect)
 	char *str;
 
 	c = va_arg(ap, int);
+	if (c == 0)
+		c = 7;
 	str = ft_strnew(1);
 	str[0] = c;
 	if ((*flags_set)->preclen < ft_strlen(str) && (*flags_set)->preclen !=0)
@@ -76,34 +78,34 @@ void    prt_c(va_list ap, t_flags **flags_set, t_vect **vect)
 	free(str);
 }
 
-void    prt_wc(va_list ap, t_flags **flags_set, t_vect **vect)
-{
-	wchar_t *wstr;
-	wchar_t wc;
-	char *str;
+// void    prt_wc(va_list ap, t_flags **flags_set, t_vect **vect)
+// {
+// 	wchar_t *wstr;
+// 	wchar_t wc;
+// 	char *str;
 
-	wc = va_arg(ap, wchar_t);
-	wstr = ft_wstrnew(1);
-	wstr[0] = wc;
-	if ((*flags_set)->preclen < ft_wstrlen(wstr) && (*flags_set)->preclen !=0)
-		wstr[((*flags_set)->preclen)] = '\0';
-	if ((*flags_set)->padlen - ft_wstrlen(wstr) > 0)
-		(*flags_set)->padlen -= ft_wstrlen(wstr);
-	if((*flags_set)->leftjust)
-		wstr = ft_wstrjoin(wstr, wcloudy(flags_set));
-	else
-		wstr = ft_wstrjoin(wcloudy(flags_set), wstr);
-	str = str_wstr(wstr);
-	vect_add((*vect), str, ft_wstrlen(wstr));
-	free(str);
-	free(wstr);
-}
+// 	wc = va_arg(ap, wchar_t);
+// 	wstr = ft_wstrnew(1);
+// 	wstr[0] = wc;
+// 	if ((*flags_set)->preclen < ft_wstrlen(wstr) && (*flags_set)->preclen !=0)
+// 		wstr[((*flags_set)->preclen)] = '\0';
+// 	if ((*flags_set)->padlen - ft_wstrlen(wstr) > 0)
+// 		(*flags_set)->padlen -= ft_wstrlen(wstr);
+// 	if((*flags_set)->leftjust)
+// 		wstr = ft_wstrjoin(wstr, wcloudy(flags_set));
+// 	else
+// 		wstr = ft_wstrjoin(wcloudy(flags_set), wstr);
+// 	str = str_wstr(wstr);
+// 	vect_add((*vect), str, ft_wstrlen(wstr));
+// 	free(str);
+// 	free(wstr);
+// }
 
 void    prt_hex(va_list ap, t_flags **flags_set, t_vect **vect)
 {
 	char *str;
 
-	str = itoa_base(va_arg(ap, intmax_t), 16);
+	str = itoa_base(va_arg(ap, uintmax_t), 16);
 	if ((*flags_set)->x)
 		up_str(&str);
 	if ((*flags_set)->pound)
@@ -293,6 +295,25 @@ void    prt_str(va_list ap, t_flags **flags_set, t_vect **vect)
 	free(str);
 }
 
+void    prt_percent(va_list ap, t_flags **flags_set, t_vect **vect)
+{
+	char *str;
+
+	str = ft_strdup("%");
+	if (str == NULL)
+		str = ft_strdup("(null)");
+	if ((*flags_set)->preclen < ft_strlen(str) && (*flags_set)->preclen !=0)
+		str[((*flags_set)->preclen)] = '\0';
+	if ((*flags_set)->padlen - ft_strlen(str) > 0)
+		(*flags_set)->padlen -= ft_strlen(str);
+	if((*flags_set)->leftjust)
+		str = ft_strjoin(str, cloudy(flags_set));
+	else
+		str = ft_strjoin(cloudy(flags_set), str);
+	vect_add((*vect), str, ft_strlen(str));
+	free(str);
+}
+
 void    prt_oct(va_list ap, t_flags **flags_set, t_vect **vect)
 {
 	char *str;
@@ -316,7 +337,7 @@ t_bool  argsymb(char c)
 {
 	if (c == 's' || c == 'S' || c == 'd' || c == 'D' || c == 'i'|| c == 'o'
 	|| c == 'O' || c == 'u' || c == 'U' || c == 'x' || c == 'X' || c == 'c'
-	|| c == 'C' || c == 'p' || c == '\0')
+	|| c == 'C' || c == 'p' || c == '%' || c == '\0')
 		return (TRUE);
 	return (FALSE);
 }
@@ -441,8 +462,6 @@ void    funct(char **s, va_list ap, t_vect **vect)
 
 	i = 0;
 	j = 0;
-	if (**s == '%')
-		return ;
 	flags_set = setflags(s, ap);
 	while(g_dispatch[i].prt != NULL)
 	{
@@ -478,11 +497,12 @@ size_t parsefor(char *s, va_list ap)
 			s++;
 			funct(&s, ap, &vect);
 		}
-		if (!*s)
-			break;
-		str[0] = *s;
-		vect_add(vect, str, ft_strlen(str));
-		s++;
+		else
+		{
+			str[0] = *s;
+			vect_add(vect, str, ft_strlen(str));
+			s++;
+		}
 	}
 	ft_putstr(vect->str);
 	x = vect->num_chars;

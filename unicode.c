@@ -53,6 +53,7 @@ char *str_wstr(wchar_t *wchar)
         tmp = unicode(*wchar);
         str = ft_strjoin(str, tmp);
         wchar++;
+        free(tmp);
     }
     return (str);
 }

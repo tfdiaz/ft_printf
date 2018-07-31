@@ -97,6 +97,7 @@ void            prt_uint(va_list ap, t_flags **flags_set, t_vect **vect);
 void            prt_hex(va_list ap, t_flags **flags_set, t_vect **vect);
 void            prt_wc(va_list ap, t_flags **flags_set, t_vect **vect);
 void            prt_c(va_list ap, t_flags **flags_set, t_vect **vect);
+void            prt_percent(va_list ap, t_flags **flags_set, t_vect **vect);
 
 size_t	        ft_wstrlen(wchar_t *wchar);
 wchar_t         *ft_wstrjoin(wchar_t *ws1, wchar_t *ws2);
