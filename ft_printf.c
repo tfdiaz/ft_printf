@@ -195,7 +195,10 @@ void    prt_int(va_list ap, t_flags **flags_set, t_vect **vect)
 	if ((*flags_set)->padlen - ft_strlen(str) > 0)
 		(*flags_set)->padlen -= ft_strlen(str);
 	if ((*flags_set)->space && str[0] != '-')
-		str = ft_strjoin(" ", str);	
+	{
+		str = ft_strjoin(" ", str);
+		(*flags_set)->padlen--;
+	}
 	if ((*flags_set)->leftjust)
 		str = ft_strjoin(str, cloudy(flags_set));
 	else
@@ -229,7 +232,10 @@ void    prt_uint(va_list ap, t_flags **flags_set, t_vect **vect)
 	if ((*flags_set)->padlen - ft_strlen(str) > 0)
 		(*flags_set)->padlen -= ft_strlen(str);
 	if ((*flags_set)->space && str[0] != '-')
+	{
 		str = ft_strjoin(" ", str);
+		(*flags_set)->padlen--;
+	}
 	if ((*flags_set)->leftjust)
 		str = ft_strjoin(str, cloudy(flags_set));
 	else
