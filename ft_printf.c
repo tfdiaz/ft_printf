@@ -32,8 +32,10 @@ char    *cloudy(t_flags **flags_set)
 	intmax_t x = (*flags_set)->padlen;
 	if ((*flags_set)->padlen <= 0)
 		return (NULL);
-	if ((*flags_set)->zeropad && (*flags_set)->plus && !((*flags_set)->leftjust) && (*flags_set)->space)
-		(*flags_set)->padlen--;	
+	if ((*flags_set)->zeropad && (*flags_set)->plus && !((*flags_set)->leftjust)))
+		(*flags_set)->padlen--;
+	if ((*flags_set)->space)
+		(*flags_set)->padlen--;
 	str = ft_strnew((*flags_set)->padlen + 1);
 	if ((*flags_set)->zeropad && !((*flags_set)->leftjust))
 		str = ft_memset(str, '0', (*flags_set)->padlen);
