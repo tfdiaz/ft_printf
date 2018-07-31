@@ -32,7 +32,7 @@ char    *cloudy(t_flags **flags_set)
 	intmax_t x = (*flags_set)->padlen;
 	if ((*flags_set)->padlen <= 0)
 		return (NULL);
-	if ((*flags_set)->zeropad && (*flags_set)->plus && !((*flags_set)->leftjust))
+	if ((*flags_set)->zeropad && (*flags_set)->plus && !((*flags_set)->leftjust) && (*flags_set)->space)
 		(*flags_set)->padlen--;	
 	str = ft_strnew((*flags_set)->padlen + 1);
 	if ((*flags_set)->zeropad && !((*flags_set)->leftjust))
@@ -192,13 +192,9 @@ void    prt_int(va_list ap, t_flags **flags_set, t_vect **vect)
 		str = ft_strjoin("+", str);
 		(*flags_set)->plus = 0;
 	}
-	if ((*flags_set)->padlen - ft_strlen(str) > 0)
-		(*flags_set)->padlen -= ft_strlen(str);
+	(*flags_set)->padlen -= ft_strlen(str);
 	if ((*flags_set)->space && str[0] != '-')
-	{
 		str = ft_strjoin(" ", str);
-		(*flags_set)->padlen--;
-	}
 	if ((*flags_set)->leftjust)
 		str = ft_strjoin(str, cloudy(flags_set));
 	else
@@ -229,13 +225,9 @@ void    prt_uint(va_list ap, t_flags **flags_set, t_vect **vect)
 		str = ft_strjoin("+", str);
 		(*flags_set)->plus = 0;
 	}
-	if ((*flags_set)->padlen - ft_strlen(str) > 0)
-		(*flags_set)->padlen -= ft_strlen(str);
+	(*flags_set)->padlen -= ft_strlen(str);
 	if ((*flags_set)->space && str[0] != '-')
-	{
 		str = ft_strjoin(" ", str);
-		(*flags_set)->padlen--;
-	}
 	if ((*flags_set)->leftjust)
 		str = ft_strjoin(str, cloudy(flags_set));
 	else
