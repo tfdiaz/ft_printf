@@ -138,13 +138,23 @@ void sconvert(intmax_t *x, t_flags **flags_set)
 	}
 	else if ((*flags_set)->l)
 	{
-		while (*x > INT_MAX || *x < INT_MIN)
-			*x = *x % ((long)INT_MAX + 1) - ((long)INT_MAX + 1);
+		while (*x > LONG_MAX || *x < LONG_MIN)
+			*x = *x % ((unsigned long)LONG_MAX + 1) - ((unsigned long)LONG_MAX + 1);
 	}
 	else if ((*flags_set)->ll)
 	{
-		while (*x > LONG_MAX || *x < LONG_MIN)
-			*x = *x % LONG_MAX - 1 - LONG_MAX - 1;
+		while (*x > LLONG_MAX || *x < LLONG_MIN)
+			*x = *x % ((unsigned long long)LLONG_MAX + 1) - ((unsigned long long)LLONG_MAX + 1);
+	}
+	else if ((*flags_set)->j)
+	{
+		while (*x > INTMAX_MIN || *x < INTMAX_MAX)
+			*x = *x % ((uintmax_t)INTMAX_MAX+ 1) - ((uintmax_t)INTMAX_MAX+ 1);
+	}
+	else if ((*flags_set)->z)
+	{
+		while (*x > SIZE_MAX || *x < 0)
+			*x = *x % ((int)SIZE_MAX + 1) - ((int)SIZE_MAX + 1);
 	}
 }
 
@@ -162,13 +172,23 @@ void uconvert(uintmax_t *x, t_flags **flags_set)
 	}
 	else if ((*flags_set)->l)
 	{
-		while (*x > UINT_MAX)
-			*x = *x % ((long)UINT_MAX + 1);
+		while (*x > ULONG_MAX)
+			*x = *x % ((unsigned long long)UINT_MAX + 1);
 	}
 	else if ((*flags_set)->ll)
 	{
-		while (*x > ULONG_MAX)
-			*x = *x % ULONG_MAX - 1;
+		while (*x > ULLONG_MAX)
+			*x = *x % ULLONG_MAX - 1;
+	}
+	else if ((*flags_set)->j)
+	{
+		while (*x > UINTMAX_MAX)
+			*x = *x % ((unsigned long long)INTMAX_MAX + 1);
+	}
+	else if ((*flags_set)->z)
+	{
+		while (*x > SIZE_MAX)
+			*x = *x % ((int)SIZE_MAX + 1);
 	}
 }
 
