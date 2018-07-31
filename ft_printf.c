@@ -414,6 +414,8 @@ t_flags *setflags(char **s, va_list ap)
 
 	if ((flags_set = newflags()) == NULL)
 		return (NULL);
+	if (**s == ' ')
+		flags_set->space = 1;
 	while (argsymb(**s) == FALSE)
 	{
 		if(**s == '-')
@@ -426,8 +428,6 @@ t_flags *setflags(char **s, va_list ap)
 			flags_set->prec = 1;
 		else if (**s == '+')
 			flags_set->plus = 1;
-		else if (**s == ' ')
-			flags_set->space = 1;
 		else if ((**s >= '1' && **s <= '9') || **s == '*')
 			setnumber(s, &flags_set, ap);
 		else
