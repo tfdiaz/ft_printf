@@ -43,6 +43,7 @@ typedef struct  s_flags
     t_byte j;
     t_byte z;
     t_byte x;
+    t_byte space;
     int     padlen;
     int     preclen;
 

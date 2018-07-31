@@ -175,7 +175,7 @@ void    prt_int(va_list ap, t_flags **flags_set, t_vect **vect)
 	char *str;
 	intmax_t x;
 
-	x = va_arg(ap, intmax_t);
+	x = (intmax_t)va_arg(ap, int);
 	sconvert(&x, flags_set);
 	str = itoa_base(x, 10);
 	if (str[0] == '-')
@@ -194,6 +194,8 @@ void    prt_int(va_list ap, t_flags **flags_set, t_vect **vect)
 	}
 	if ((*flags_set)->padlen - ft_strlen(str) > 0)
 		(*flags_set)->padlen -= ft_strlen(str);
+	if ((*flags_set)->space && str[0] != '-')
+		str = ft_strjoin(" ", str);	
 	if ((*flags_set)->leftjust)
 		str = ft_strjoin(str, cloudy(flags_set));
 	else
@@ -226,6 +228,8 @@ void    prt_uint(va_list ap, t_flags **flags_set, t_vect **vect)
 	}
 	if ((*flags_set)->padlen - ft_strlen(str) > 0)
 		(*flags_set)->padlen -= ft_strlen(str);
+	if ((*flags_set)->space && str[0] != '-')
+		str = ft_strjoin(" ", str);
 	if ((*flags_set)->leftjust)
 		str = ft_strjoin(str, cloudy(flags_set));
 	else
@@ -362,6 +366,7 @@ t_flags *newflags()
 	new_fl->j = 0;
 	new_fl->z = 0;
 	new_fl->x = 0;
+	new_fl->space = 0;
 	return (new_fl);
 }
 
@@ -421,6 +426,8 @@ t_flags *setflags(char **s, va_list ap)
 			flags_set->prec = 1;
 		else if (**s == '+')
 			flags_set->plus = 1;
+		else if (**s == ' ')
+			flags_set->space = 1;
 		else if ((**s >= '1' && **s <= '9') || **s == '*')
 			setnumber(s, &flags_set, ap);
 		else
