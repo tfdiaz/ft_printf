@@ -154,7 +154,7 @@ void sconvert(intmax_t *x, t_flags **flags_set)
 	else if ((*flags_set)->z)
 	{
 		if (sizeof(*x) > sizeof(size_t))
-			*x = *x % ((uintmax_t)SIZE_MAX + 1) - ((uintmax_t)SIZE_MAX + 1);
+			*x = *x % ((uintmax_t)SSIZE_MAX + 1) - ((uintmax_t)SSIZE_MAX + 1);
 	}
 }
 
@@ -188,7 +188,7 @@ void uconvert(uintmax_t *x, t_flags **flags_set)
 	else if ((*flags_set)->z)
 	{
 		if (sizeof(*x) > sizeof(uintmax_t))
-			*x = *x % ((int)SIZE_MAX + 1);
+			*x = *x % ((unsigned long long)SSIZE_MAX * 2 + 1);
 	}
 }
 
@@ -197,7 +197,8 @@ void    prt_int(va_list ap, t_flags **flags_set, t_vect **vect)
 	char *str;
 	intmax_t x;
 
-	x = (intmax_t)va_arg(ap, int);
+	x = ((*flags_set)->l || (*flags_set)->ll || (*flags_set)->j || (*flags_set)->z) ?
+		(intmax_t)va_arg(ap, intmax_t) : (intmax_t)va_arg(ap, int) ;
 	sconvert(&x, flags_set);
 	str = itoa_base(x, 10);
 	if (str[0] == '-')
