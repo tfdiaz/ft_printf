@@ -128,33 +128,33 @@ void sconvert(intmax_t *x, t_flags **flags_set)
 {
 	if ((*flags_set)->hh)
 	{
-		while (*x > SCHAR_MAX || *x < SCHAR_MIN)
+		if (sizeof(*x) > sizeof(char))
 			*x = *x % (SCHAR_MAX + 1) - (SCHAR_MAX + 1);
 	}
 	else if ((*flags_set)->h)
 	{
-		while (*x > SHRT_MAX || *x < SHRT_MIN)
+		if (sizeof(*x) > sizeof(short int))
 			*x = *x % (SHRT_MAX + 1) - (SHRT_MAX + 1);
 	}
 	else if ((*flags_set)->l)
 	{
-		while (*x > LONG_MAX || *x < LONG_MIN)
+		if (sizeof(*x) > sizeof(long))
 			*x = *x % ((unsigned long)LONG_MAX + 1) - ((unsigned long)LONG_MAX + 1);
 	}
 	else if ((*flags_set)->ll)
 	{
-		while (*x > LLONG_MAX || *x < LLONG_MIN)
+		if (sizeof(*x) > sizeof(long long))
 			*x = *x % ((unsigned long long)LLONG_MAX + 1) - ((unsigned long long)LLONG_MAX + 1);
 	}
 	else if ((*flags_set)->j)
 	{
-		while (*x > INTMAX_MIN || *x < INTMAX_MAX)
+		if (sizeof(*x) > sizeof(intmax_t))
 			*x = *x % ((uintmax_t)INTMAX_MAX+ 1) - ((uintmax_t)INTMAX_MAX+ 1);
 	}
 	else if ((*flags_set)->z)
 	{
-		while (*x > SIZE_MAX || *x < 0)
-			*x = *x % ((int)SIZE_MAX + 1) - ((int)SIZE_MAX + 1);
+		if (sizeof(*x) > sizeof(size_t))
+			*x = *x % ((uintmax_t)SIZE_T_MAX + 1) - ((uintmax_t)SIZE_T_MAX + 1);
 	}
 }
 
@@ -162,32 +162,32 @@ void uconvert(uintmax_t *x, t_flags **flags_set)
 {
 	if ((*flags_set)->hh)
 	{
-		while (*x > UCHAR_MAX)
+		if (sizeof(*x) > sizeof(unsigned char))
 			*x = *x % (UCHAR_MAX + 1);
 	}
 	else if ((*flags_set)->h)
 	{
-		while (*x > USHRT_MAX)
+		if (sizeof(*x) > sizeof(unsigned short))
 			*x = *x % (USHRT_MAX + 1);
 	}
 	else if ((*flags_set)->l)
 	{
-		while (*x > ULONG_MAX)
-			*x = *x % ((unsigned long long)UINT_MAX + 1);
+		if (sizeof(*x) > sizeof(unsigned long))
+			*x = *x % ((unsigned long long)ULONG_MAX + 1);
 	}
 	else if ((*flags_set)->ll)
 	{
-		while (*x > ULLONG_MAX)
+		if (sizeof(*x) > sizeof(unsigned long long))
 			*x = *x % ULLONG_MAX - 1;
 	}
 	else if ((*flags_set)->j)
 	{
-		while (*x > UINTMAX_MAX)
-			*x = *x % ((unsigned long long)INTMAX_MAX + 1);
+		if (sizeof(*x) > sizeof(uintmax_t))
+			*x = *x % ((unsigned long long)UINTMAX_MAX + 1);
 	}
 	else if ((*flags_set)->z)
 	{
-		while (*x > SIZE_MAX)
+		if (sizeof(*x) > sizeof(uintmax_t))
 			*x = *x % ((int)SIZE_MAX + 1);
 	}
 }
