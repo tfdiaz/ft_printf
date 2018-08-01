@@ -127,69 +127,33 @@ void    prt_hex(va_list ap, t_flags **flags_set, t_vect **vect)
 void sconvert(intmax_t *x, t_flags **flags_set)
 {
 	if ((*flags_set)->hh)
-	{
-		if (sizeof(*x) > sizeof(char))
-			*x = *x % (SCHAR_MAX + 1) - (SCHAR_MAX + 1);
-	}
+		*x = (signed char)*x;
 	else if ((*flags_set)->h)
-	{
-		if (sizeof(*x) > sizeof(short int))
-			*x = *x % (SHRT_MAX + 1) - (SHRT_MAX + 1);
-	}
+		*x = (signed short)*x;
 	else if ((*flags_set)->l)
-	{
-		if (sizeof(*x) > sizeof(long))
-			*x = *x % ((unsigned long)LONG_MAX + 1) - ((unsigned long)LONG_MAX + 1);
-	}
+		*x = (signed long)*x;
 	else if ((*flags_set)->ll)
-	{
-		if (sizeof(*x) > sizeof(long long))
-			*x = *x % ((unsigned long long)LLONG_MAX + 1) - ((unsigned long long)LLONG_MAX + 1);
-	}
+		*x = (signed long long)*x;
 	else if ((*flags_set)->j)
-	{
-		if (sizeof(*x) > sizeof(intmax_t))
-			*x = *x % ((uintmax_t)INTMAX_MAX+ 1) - ((uintmax_t)INTMAX_MAX+ 1);
-	}
+		*x = (intmax_t)*x;
 	else if ((*flags_set)->z)
-	{
-		if (sizeof(*x) > sizeof(size_t))
-			*x = *x % ((uintmax_t)SSIZE_MAX + 1) - ((uintmax_t)SSIZE_MAX + 1);
-	}
+		*x = (size_t)*x;
 }
 
 void uconvert(uintmax_t *x, t_flags **flags_set)
 {
 	if ((*flags_set)->hh)
-	{
-		if (sizeof(*x) > sizeof(unsigned char))
-			*x = *x % (UCHAR_MAX + 1);
-	}
+		*x = (unsigned char)*x;
 	else if ((*flags_set)->h)
-	{
-		if (sizeof(*x) > sizeof(unsigned short))
-			*x = *x % (USHRT_MAX + 1);
-	}
+		*x = (unsigned short)*x;
 	else if ((*flags_set)->l)
-	{
-		if (sizeof(*x) > sizeof(unsigned long))
-			*x = *x % ((unsigned long long)ULONG_MAX + 1);
-	}
+		*x = (unsigned long)*x;
 	else if ((*flags_set)->ll)
-	{
-		if (sizeof(*x) > sizeof(unsigned long long))
-			*x = *x % ULLONG_MAX - 1;
-	}
+		*x = (unsigned long long)*x;
 	else if ((*flags_set)->j)
-	{
-		if (sizeof(*x) > sizeof(uintmax_t))
-			*x = *x % ((unsigned long long)UINTMAX_MAX + 1);
-	}
+		*x = (uintmax_t)*x;
 	else if ((*flags_set)->z)
-	{
-		if (sizeof(*x) > sizeof(size_t))
-			*x = *x % ((unsigned long long)SSIZE_MAX * 2 + 1);
-	}
+		*x = (size_t)*x;
 }
 
 void    prt_int(va_list ap, t_flags **flags_set, t_vect **vect)
@@ -545,7 +509,6 @@ int ft_printf(const char *format, ...)
 	 int x;
 
 	 va_start(ap, format);
-	 write(1, format, 4);
 	 s = ft_strdup(format);
 	 x = (int)parsefor(s, ap);
 	 va_end(ap);
