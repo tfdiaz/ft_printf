@@ -43,6 +43,7 @@ typedef struct  s_flags
     t_byte j;
     t_byte z;
     t_byte x;
+    t_byte u;
     t_byte space;
     int     padlen;
     int     preclen;
@@ -87,6 +88,8 @@ void            set_length(char **s, t_flags **flags_set);
 char            *uitoa_base(uintmax_t x, intmax_t base);
 
 char            *unicode(wchar_t wchar);
+void            uconvert(uintmax_t *x, t_flags **flags_set);
+void            sconvert(intmax_t *x, t_flags **flags_set);
 char            *str_wstr(wchar_t *wchar);
 wchar_t         *wstr_set(wchar_t *wstr, wchar_t wc, size_t len);
 

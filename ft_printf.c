@@ -102,24 +102,50 @@ void    prt_c(va_list ap, t_flags **flags_set, t_vect **vect)
 // 	free(str);
 // 	free(wstr);
 // }
-
+void	zeroperc(char **s, t_flags **flags_set)
+{
+	if (**s == '0' && (*flags_set)->prec && (*flags_set)->preclen == 0)
+	{
+		**s = '\0';
+		(*flags_set)->pound = 0;
+		(*flags_set)->zeropad = 0;	
+	}
+}
 void    prt_hex(va_list ap, t_flags **flags_set, t_vect **vect)
 {
 	char *str;
+	uintmax_t x;
 
-	str = itoa_base(va_arg(ap, uintmax_t), 16);
-	if ((*flags_set)->pound)
+	x = va_arg(ap, uintmax_t);
+	if (x == 0)
+		(*flags_set)->pound = 0;
+	uconvert(&x, flags_set);
+	str = uitoa_base(x, 16);
+	zeroperc(&str, flags_set);
+	if ((*flags_set)->pound && !(*flags_set)->leftjust && !(*flags_set)->zeropad)
+	{
 		str = ft_strjoin("0x", str);
-	if ((*flags_set)->x)
-		up_str(&str);
+		(*flags_set)->pound = 0;
+	}
+	if ((*flags_set)->pound && ((*flags_set)->leftjust || (*flags_set)->zeropad))
+		(*flags_set)->padlen -= 2;
 	while ((*flags_set)->preclen > ft_strlen(str))
 		str = ft_strjoin("0", str);
-	if ((*flags_set)->padlen - ft_strlen(str) > 0)
-		(*flags_set)->padlen -= ft_strlen(str); 
+	(*flags_set)->padlen -= ft_strlen(str);
 	if((*flags_set)->leftjust)
+	{
+		if ((*flags_set)->pound)
+			str = ft_strjoin("0x", str);
 		str = ft_strjoin(str, cloudy(flags_set));
+	}
 	else
+	{
 		str = ft_strjoin(cloudy(flags_set), str);
+		if ((*flags_set)->pound && str[0] != ' ')
+			str = ft_strjoin("0x", str);
+	}
+	if ((*flags_set)->x)
+		up_str(&str);
 	vect_add((*vect), str, ft_strlen(str));
 	free(str);
 }
@@ -129,15 +155,17 @@ void sconvert(intmax_t *x, t_flags **flags_set)
 	if ((*flags_set)->hh)
 		*x = (signed char)*x;
 	else if ((*flags_set)->h)
-		*x = (signed short)*x;
+		*x = (signed short int)*x;
 	else if ((*flags_set)->l)
-		*x = (signed long)*x;
+		*x = (signed long int)*x;
 	else if ((*flags_set)->ll)
-		*x = (signed long long)*x;
+		*x = (signed long long int)*x;
 	else if ((*flags_set)->j)
 		*x = (intmax_t)*x;
 	else if ((*flags_set)->z)
 		*x = (size_t)*x;
+	else
+		*x = (signed int)*x;
 }
 
 void uconvert(uintmax_t *x, t_flags **flags_set)
@@ -145,15 +173,17 @@ void uconvert(uintmax_t *x, t_flags **flags_set)
 	if ((*flags_set)->hh)
 		*x = (unsigned char)*x;
 	else if ((*flags_set)->h)
-		*x = (unsigned short)*x;
+		*x = (unsigned short int)*x;
 	else if ((*flags_set)->l)
-		*x = (unsigned long)*x;
+		*x = (unsigned long int)*x;
 	else if ((*flags_set)->ll)
-		*x = (unsigned long long)*x;
+		*x = (unsigned long long int)*x;
 	else if ((*flags_set)->j)
 		*x = (uintmax_t)*x;
 	else if ((*flags_set)->z)
 		*x = (size_t)*x;
+	else
+		*x = (unsigned int)*x;
 }
 
 void    prt_int(va_list ap, t_flags **flags_set, t_vect **vect)
@@ -165,6 +195,7 @@ void    prt_int(va_list ap, t_flags **flags_set, t_vect **vect)
 		(intmax_t)va_arg(ap, intmax_t) : (intmax_t)va_arg(ap, int) ;
 	sconvert(&x, flags_set);
 	str = itoa_base(x, 10);
+	zeroperc(&str, flags_set);
 	if (str[0] == '-')
 	{
 		(*flags_set)->preclen++;
@@ -177,6 +208,7 @@ void    prt_int(va_list ap, t_flags **flags_set, t_vect **vect)
 	if (((*flags_set)->plus) && !(*flags_set)->zeropad)
 	{
 		str = ft_strjoin("+", str);
+		(*flags_set)->space = 0;
 		(*flags_set)->plus = 0;
 	}
 	(*flags_set)->padlen -= ft_strlen(str);
@@ -196,7 +228,8 @@ void    prt_uint(va_list ap, t_flags **flags_set, t_vect **vect)
 	uintmax_t x;
 
 	x = va_arg(ap, uintmax_t);
-	uconvert(&x, flags_set);
+	if ((*flags_set)->u == 0)
+		uconvert(&x, flags_set);
 	str = uitoa_base(x, 10);
 	if (str[0] == '-')
 	{
@@ -207,14 +240,7 @@ void    prt_uint(va_list ap, t_flags **flags_set, t_vect **vect)
 		str = ft_strjoin("0", str);
 	if ((*flags_set)->preclen == ft_strlen(str))
 		(*flags_set)->zeropad = 0;
-	if (((*flags_set)->plus) && !(*flags_set)->zeropad)
-	{
-		str = ft_strjoin("+", str);
-		(*flags_set)->plus = 0;
-	}
 	(*flags_set)->padlen -= ft_strlen(str);
-	if ((*flags_set)->space && str[0] != '-')
-		str = ft_strjoin(" ", str);
 	if ((*flags_set)->leftjust)
 		str = ft_strjoin(str, cloudy(flags_set));
 	else
@@ -306,10 +332,16 @@ void    prt_percent(va_list ap, t_flags **flags_set, t_vect **vect)
 void    prt_oct(va_list ap, t_flags **flags_set, t_vect **vect)
 {
 	char *str;
+	t_byte tmp;
 
-	str = itoa_base(va_arg(ap, intmax_t), 8);
-	if ((*flags_set)->pound && str[0] != '0')
+	tmp = (*flags_set)->pound;
+	str = uitoa_base(va_arg(ap, intmax_t), 8);
+	zeroperc(&str, flags_set);
+	if (tmp && str[0] != '0')
+	{
 		str = ft_strjoin("0", str);
+		(*flags_set)->pound = 0;
+	}
 	while ((*flags_set)->preclen > ft_strlen(str))
 		str = ft_strjoin("0", str);
 	if ((*flags_set)->padlen - ft_strlen(str) > 0)
@@ -352,6 +384,7 @@ t_flags *newflags()
 	new_fl->z = 0;
 	new_fl->x = 0;
 	new_fl->space = 0;
+	new_fl->u = 0;
 	return (new_fl);
 }
 
@@ -421,6 +454,8 @@ t_flags *setflags(char **s, va_list ap)
 	}
 	if(**s == 'X')
 		(flags_set)->x = 1;
+	if(**s == 'U')
+		(flags_set)->u = 1;
 	return (flags_set);
 }
 
