@@ -187,7 +187,7 @@ void uconvert(uintmax_t *x, t_flags **flags_set)
 	}
 	else if ((*flags_set)->z)
 	{
-		if (sizeof(*x) > sizeof(uintmax_t))
+		if (sizeof(*x) > sizeof(size_t))
 			*x = *x % ((unsigned long long)SSIZE_MAX * 2 + 1);
 	}
 }
@@ -545,6 +545,7 @@ int ft_printf(const char *format, ...)
 	 int x;
 
 	 va_start(ap, format);
+	 write(1, format, 4);
 	 s = ft_strdup(format);
 	 x = (int)parsefor(s, ap);
 	 va_end(ap);
