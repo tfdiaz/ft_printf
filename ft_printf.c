@@ -154,7 +154,7 @@ void sconvert(intmax_t *x, t_flags **flags_set)
 	else if ((*flags_set)->z)
 	{
 		if (sizeof(*x) > sizeof(size_t))
-			*x = *x % ((uintmax_t)SIZE_T_MAX + 1) - ((uintmax_t)SIZE_T_MAX + 1);
+			*x = *x % ((uintmax_t)SIZE_MAX + 1) - ((uintmax_t)SIZE_MAX + 1);
 	}
 }
 
