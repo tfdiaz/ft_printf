@@ -197,7 +197,7 @@ void    prt_uint(va_list ap, t_flags **flags_set, t_vect **vect)
 
 	x = va_arg(ap, uintmax_t);
 	uconvert(&x, flags_set);
-	str = itoa_base(x, 10);
+	str = uitoa_base(x, 10);
 	if (str[0] == '-')
 	{
 		(*flags_set)->preclen++;

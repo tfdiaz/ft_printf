@@ -84,6 +84,7 @@ char	        *ft_strcpy(char *dst, const char *src);
 char	        *ft_strdup(const char *s1);
 void            up_str(char **s);
 void            set_length(char **s, t_flags **flags_set);
+char            *uitoa_base(uintmax_t x, intmax_t base);
 
 char            *unicode(wchar_t wchar);
 char            *str_wstr(wchar_t *wchar);

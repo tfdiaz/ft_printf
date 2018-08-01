@@ -54,3 +54,36 @@ char *itoa_base(intmax_t x, intmax_t base)
 		str[i] = '-';
 	return (str);
 }
+
+char *uitoa_base(uintmax_t x, intmax_t base)
+{
+	int			i;
+	char		*str;
+	char		*alph;
+	uintmax_t	tmp;
+
+	i = 0;
+	tmp = x;
+	alph = "0123456789abcdef";
+	if (x == 0)
+	{
+		str = ft_strdup("0");
+		return (str);
+	}
+	while (tmp != 0)
+	{
+		tmp = tmp / base;
+		i++;
+	}
+	if ((str = ft_strnew(i)) == NULL)
+		return (NULL);
+	i--;
+	while (x != 0)
+	{
+		tmp = x % base;
+		str[i] = alph[tmp];
+		x /= base;
+		i--;
+	}
+	return (str);
+}
