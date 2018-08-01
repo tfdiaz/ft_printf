@@ -496,6 +496,8 @@ void    funct(char **s, va_list ap, t_vect **vect)
 			**s = 'S';
 		if(**s == 'c' && flags_set->l)
 			**s = 'C';
+		if(**s == 'D')
+			flags_set->l = 1;
 		j = 0;
 		while (g_dispatch[i].s[j] != '\0')
 		{
