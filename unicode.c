@@ -42,6 +42,7 @@ void	unicode(wchar_t wchar, char **s)
 char	*str_wstr(wchar_t *wchar)
 {
 	char	*tmp;
+	char	*tmp2;
 	char	*str;
 
 	str = NULL;
@@ -49,9 +50,12 @@ char	*str_wstr(wchar_t *wchar)
 	{
 		tmp = ft_strnew(5);
 		unicode(*wchar, &tmp);
+		tmp2 = str;
 		str = ft_strjoin(str, tmp);
 		wchar++;
 		free(tmp);
+		if (tmp2 != NULL)
+			free(tmp2);
 	}
 	return (str);
 }
