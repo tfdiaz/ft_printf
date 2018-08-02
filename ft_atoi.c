@@ -25,11 +25,11 @@ static int	spac(char x)
 	return (0);
 }
 
-int	ft_atoi(const char *str)
+int			ft_atoi(const char *str)
 {
 	int	res;
-	int			sgn;
-	int			i;
+	int	sgn;
+	int	i;
 
 	res = 0;
 	sgn = 1;

@@ -18,9 +18,9 @@ char	*ft_strjoin(char *s1, char *s2)
 	char	*str;
 
 	if (s1 == NULL && s2 != NULL)
-		return (s2);
+		return (ft_strdup(s2));
 	if (s2 == NULL && s1 != NULL)
-		return (s1);
+		return (ft_strdup(s1));
 	ltot = ft_strlen(s1) + ft_strlen(s2) + 1;
 	if ((str = (char*)malloc(sizeof(char) * ltot)) == NULL)
 		return (NULL);

@@ -29,6 +29,6 @@ t_vect	*vect_add(t_vect *vect, char *str, size_t num_char)
 	}
 	vect->len += ft_strlen(str);
 	vect->str = ft_strcat(vect->str, str);
-	vect->num_chars += num_char; 
+	vect->num_chars += num_char;
 	return (vect);
 }

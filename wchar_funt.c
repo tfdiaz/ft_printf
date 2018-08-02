@@ -22,15 +22,15 @@ size_t	ft_wstrlen(wchar_t *wchar)
 	return (i);
 }
 
-wchar_t *ft_wstrjoin(wchar_t *ws1, wchar_t *ws2)
+wchar_t	*ft_wstrjoin(wchar_t *ws1, wchar_t *ws2)
 {
 	size_t	ltot;
 	wchar_t	*wchar;
 
 	if (ws1 == NULL && ws2 != NULL)
-		return (ws2);
+		return (ft_wstrdup(ws2));
 	if (ws2 == NULL && ws1 != NULL)
-		return (ws1);
+		return (ft_wstrdup(ws1));
 	ltot = ft_wstrlen(ws1) + ft_wstrlen(ws2) + 1;
 	if ((wchar = (wchar_t*)malloc(sizeof(wchar_t) * ltot)) == NULL)
 		return (NULL);
@@ -71,13 +71,13 @@ wchar_t	*ft_wstrcat(wchar_t *ws1, wchar_t *ws2)
 	return (ws1);
 }
 
-wchar_t *ft_wstrnew(size_t size)
+wchar_t	*ft_wstrnew(size_t size)
 {
-	wchar_t *wstr;
+	wchar_t	*wstr;
 
 	wstr = (wchar_t*)malloc(sizeof(wchar_t) * (size + 1));
 	if (wstr == NULL)
 		return (NULL);
-    wstr_set(wstr, L'\0', size + 1);
+	wstr_set(wstr, L'\0', size + 1);
 	return (wstr);
 }

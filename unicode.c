@@ -12,57 +12,55 @@
 
 #include "ft_printf.h"
 
-char *unicode(wchar_t wchar)
+void	unicode(wchar_t wchar, char **s)
 {
-    char *s;
-    int i;
+	int		i;
 
-    i = 0;
-    s = ft_strnew(5);
-    if (wchar < 0x80)
-        s[0] = wchar;
-    else if (wchar < 0x800)
-    {
-        s[0] = 192 + wchar / 64; 
-        s[1] = 128 + wchar % 64;
-    }
-    else if (wchar < 0x10000) 
-    {
-        s[0] = 224 + wchar / 4096; 
-        s[1] = 128 + wchar / 64 % 64; 
-        s[2] = 128 + wchar % 64;
-    }
-    else if (wchar < 0x110000) 
-    {
-        s[0] = 240 + wchar / 262144;
-        s[1] = 128 + wchar / 4096 % 64;
-        s[2] =128 + wchar / 64 % 64;
-        s[3] =128 + wchar % 64;
-    }
-    return (s);
+	i = 0;
+	if (wchar < 0x80)
+		(*s)[0] = wchar;
+	else if (wchar < 0x800)
+	{
+		(*s)[0] = 192 + wchar / 64;
+		(*s)[1] = 128 + wchar % 64;
+	}
+	else if (wchar < 0x10000)
+	{
+		(*s)[0] = 224 + wchar / 4096;
+		(*s)[1] = 128 + wchar / 64 % 64;
+		(*s)[2] = 128 + wchar % 64;
+	}
+	else if (wchar < 0x110000)
+	{
+		(*s)[0] = 240 + wchar / 262144;
+		(*s)[1] = 128 + wchar / 4096 % 64;
+		(*s)[2] = 128 + wchar / 64 % 64;
+		(*s)[3] = 128 + wchar % 64;
+	}
 }
 
-char *str_wstr(wchar_t *wchar)
+char	*str_wstr(wchar_t *wchar)
 {
-    char    *tmp;
-    char    *str;
-    
-    str = NULL;
-    while (*wchar != L'\0')
-    {
-        tmp = unicode(*wchar);
-        str = ft_strjoin(str, tmp);
-        wchar++;
-        free(tmp);
-    }
-    return (str);
+	char	*tmp;
+	char	*str;
+
+	str = NULL;
+	while (*wchar != L'\0')
+	{
+		tmp = ft_strnew(5);
+		unicode(*wchar, &tmp);
+		str = ft_strjoin(str, tmp);
+		wchar++;
+		free(tmp);
+	}
+	return (str);
 }
 
-wchar_t *wstr_set(wchar_t *wstr, wchar_t wc, size_t len)
+wchar_t	*wstr_set(wchar_t *wstr, wchar_t wc, size_t len)
 {
-	size_t			i;
-	
-    i = 0;
+	size_t	i;
+
+	i = 0;
 	while (i < len)
 	{
 		wstr[i] = wc;
@@ -71,7 +69,7 @@ wchar_t *wstr_set(wchar_t *wstr, wchar_t wc, size_t len)
 	return (wstr);
 }
 
-wchar_t *ft_wstrdup(wchar_t *ws1)
+wchar_t	*ft_wstrdup(wchar_t *ws1)
 {
 	wchar_t	*wstr;
 	int		i;
@@ -85,4 +83,23 @@ wchar_t *ft_wstrdup(wchar_t *ws1)
 	while (*ws1)
 		wstr[i++] = *ws1++;
 	return (wstr);
+}
+
+wchar_t	*wjoinclean(wchar_t **s, t_flags **flags_set, int strleft)
+{
+	wchar_t	*str;
+	wchar_t	*cloud;
+	wchar_t	*ret;
+
+	str = *s;
+	cloud = wcloudy(flags_set);
+	if (strleft)
+		ret = ft_wstrjoin(str, cloud);
+	else
+		ret = ft_wstrjoin(cloud, str);
+	if (str)
+		free(str);
+	if (cloud)
+		free(cloud);
+	return (ret);
 }
