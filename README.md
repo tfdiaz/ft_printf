@@ -2,7 +2,8 @@
 # ft_printf
 
 ## Replicate printf functionality <br />
-Project goals <br />
--Organization of C code<br />
--Understand conversions and format flags <br />
--Use of Va_args <br />
+
+Project goals
+- Organization of C code
+- Understand conversions and format flags
+- Use of Va_args
