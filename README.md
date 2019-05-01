@@ -1,5 +1,5 @@
 # Replication of printf
-This project as the title denotes is to replicate certain aspects of printf. This was one of the earlier projects in [42 Silicon Valley](42.us.org) I completed in C. The purpose was to understand:
+This project as the title denotes is to replicate certain aspects of printf. This was one of the earlier projects in [42 Silicon Valley](https://www.42.us.org/) I completed in C. The purpose was to understand:
 * Varadic Functions
 * Organization!
 * Conversions and Flag Handling
