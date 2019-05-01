@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # Replication of printf
 This project as the title denotes is to replicate certain aspects of printf. This was one of the earlier projects in [42 Silicon Valley](42.us.org) I completed in C. The purpose was to understand:
 * Varadic Functions
@@ -20,14 +19,3 @@ All the following are handled:
 * *Minimum field-width*
 
  As a final note, don't use this printf and just use the standard printf!
-=======
-
-# ft_printf
-
-## Replicate printf functionality <br />
-
-Project goals
-- Organization of C code
-- Understand conversions and format flags
-- Use of Va_args
->>>>>>> b585a5a3e6bcedcd17a3e31ef8f70e463313bd3b
