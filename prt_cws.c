@@ -55,8 +55,6 @@ void	prt_c(va_list ap, t_flags **f_set, t_vect **vect)
 	char *str;
 
 	c = va_arg(ap, int);
-	if (c == 0)
-		c = 7;
 	str = ft_strnew(1);
 	str[0] = c;
 	if ((*f_set)->preclen < (int)ft_strlen(str) && (*f_set)->preclen != 0)
@@ -66,7 +64,10 @@ void	prt_c(va_list ap, t_flags **f_set, t_vect **vect)
 		str = joinclean(&str, f_set, 1);
 	else
 		str = joinclean(&str, f_set, 0);
-	vect_add((*vect), str, ft_strlen(str));
+	if (ft_strlen(str) == 0)
+		vect_add((*vect), str, 1);
+	else
+		vect_add((*vect), str, ft_strlen(str));
 	free(str);
 }
 

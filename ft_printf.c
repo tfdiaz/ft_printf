@@ -71,7 +71,7 @@ size_t	parsefor(char *s, va_list ap)
 			s++;
 		}
 	}
-	ft_putstr(vect->str);
+	ft_putvec(vect);
 	x = vect->num_chars;
 	vect_free(&vect);
 	return (x);

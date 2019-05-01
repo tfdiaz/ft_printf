@@ -54,6 +54,9 @@ typedef	struct	s_vect
 	size_t	len;
 	size_t	cap;
 	size_t	num_chars;
+	t_bool	has_null_char;
+	size_t	index[100];
+	size_t	index_len;
 	char	*str;
 }				t_vect;
 
@@ -69,7 +72,8 @@ char			*itoa_base(intmax_t x, intmax_t base);
 void			ft_putnbr(uintmax_t n);
 void			ft_putchar(char c);
 void			ft_putendl(char const *s);
-void			ft_putstr(char const *s);
+void			ft_putstr(char const *s, size_t len);
+void			ft_putvec(t_vect *vec);
 void			*ft_memset(void *b, int c, size_t len);
 int				ft_atoi(const char *str);
 

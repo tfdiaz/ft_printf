@@ -12,7 +12,7 @@
 
 #include "ft_printf.h"
 
-void	ft_putnbr(uintmax_t n)
+void	ft_posputnbr(uintmax_t n)
 {
 	uintmax_t digit;
 

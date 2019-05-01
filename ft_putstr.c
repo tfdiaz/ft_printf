@@ -12,14 +12,32 @@
 
 #include "ft_printf.h"
 
-void	ft_putstr(char const *s)
+void	ft_putstr(char const *s, size_t len)
 {
-	while (*s)
+	write(1, s, len);
+}
+
+void	ft_putvec(t_vect *vec)
+{
+	size_t i;
+
+	i = 0;
+	if (vec->has_null_char)
 	{
-		if (*s == 7)
-			write(1, "\0", 1);
-		else
-			write(1, s, 1);
-		s++;
+		while (i < vec->index_len)
+		{
+			if (i == 0)
+				write(1, vec->str, vec->index[i] - 1);
+			write(1, "", 1);
+			if (i + 1 == vec->index_len)
+				write(1, vec->str + vec->index[i] - i,
+					vec->len - vec->index[i]);
+			else
+				write(1, vec->str + vec->index[i],
+					vec->index[i + 1] - vec->index[i] - 1);
+			i++;
+		}
 	}
+	else
+		write(1, vec->str, vec->len);
 }

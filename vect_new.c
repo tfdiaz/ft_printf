@@ -21,6 +21,8 @@ t_vect	*vect_new(size_t size)
 		return (NULL);
 	vect->cap = size;
 	vect->len = 0;
+	vect->has_null_char = 0;
+	vect->index_len = 0;
 	vect->num_chars = 0;
 	vect->str = ft_strnew(size);
 	return (vect);

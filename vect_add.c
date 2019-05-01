@@ -12,6 +12,14 @@
 
 #include "ft_printf.h"
 
+void	set_null_char(t_vect *vect)
+{
+	vect->len += 1;
+	vect->has_null_char = 1;
+	vect->index[vect->index_len] = vect->len;
+	vect->index_len++;
+}
+
 t_vect	*vect_add(t_vect *vect, char *str, size_t num_char)
 {
 	char *tmp;
@@ -27,7 +35,10 @@ t_vect	*vect_add(t_vect *vect, char *str, size_t num_char)
 		if (tmp != NULL)
 			free(tmp);
 	}
-	vect->len += ft_strlen(str);
+	if (*str != '\0')
+		vect->len += ft_strlen(str);
+	else
+		set_null_char(vect);
 	vect->str = ft_strcat(vect->str, str);
 	vect->num_chars += num_char;
 	return (vect);

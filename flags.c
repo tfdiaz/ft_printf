@@ -38,7 +38,7 @@ void	set_length(char **s, t_flags **flags_set)
 		(*flags_set)->l = 1;
 	else if (**s == 'j')
 		(*flags_set)->j = 1;
-	else if (**s == 'z')
+	else if (**s == 'z' || **s == 'Z')
 		(*flags_set)->z = 1;
 }
 
